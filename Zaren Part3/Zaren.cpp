@@ -2,14 +2,16 @@
 Author Tyler Thaxton
 Zaren OS
 */
-#include <iostream>
 #include <ctime>
 #include <dirent.h>
+#include <fstream>
+#include <iostream>
+#include <queue>
 #include <stdio.h>
 #include <stdlib.h>
-#include <queue>
-#include <fstream>
 #include <string>
+#include <time.h>
+#include <utility>
 #include <vector>
 
 using namespace std;
@@ -130,6 +132,11 @@ public:
         if (processClass < 1 || processClass > 2)
         {
             cout << "Process Class must either be 1-Application or 2-System" << endl;
+            return NULL;
+        }
+        if (cpuPercentage > 100)
+        {
+            cout << "CPU Percentage can not be more than 100" << endl;
             return NULL;
         }
         PCB *pcb = AllocatePCB();
@@ -421,10 +428,9 @@ public:
     void readFile()
     {
         string file;
-        cout << "Input File Name" << endl;
+        cout << "Input File Name: ";
         cin >> file;
-        cin.clear();
-        cin.ignore(10000, '\n');
+        cout << endl;
         ifstream infile(file.c_str());
         if (infile.is_open())
         {
@@ -452,6 +458,7 @@ public:
                     schedule.push_back(pcb);
                 }
             }
+            infile.close();
         }
         else
         {
@@ -494,6 +501,7 @@ public:
                 counter++;
                 cout << pcb->getProcessName() << endl;
                 ready.pop();
+                delete pcb;
             }
             cout << endl << "Time to completion: " << time << endl;
             cout << "Average Turnaround Time : " << (turnaround/counter) << endl;
@@ -502,6 +510,14 @@ public:
             cin.clear();
             cin.ignore(10000, '\n');
 
+        }
+        else
+        {
+            cout << "Nothing to schedule" << endl;
+            cout << "Press Enter" << endl;
+            cin.get();
+            cin.clear();
+            cin.ignore(10000, '\n');
         }
     }
     void FIFO()
@@ -515,6 +531,7 @@ public:
             {
                 ready.push(schedule[i]);
             }
+            schedule.clear();
             showQueue(1);
             int time = 0;
             int counter = 0;
@@ -532,6 +549,7 @@ public:
                 counter++;
                 cout << pcb->getProcessName() << endl;
                 ready.pop();
+                delete pcb;
             }
             cout << endl << "Time to completion: " << time << endl;
             cout << "Average Turnaround Time : " << (turnaround/counter) << endl;
@@ -540,26 +558,672 @@ public:
             cin.clear();
             cin.ignore(10000, '\n');
         }
+        else
+        {
+            cout << "Nothing to schedule" << endl;
+            cout << "Press Enter" << endl;
+            cin.get();
+            cin.clear();
+            cin.ignore(10000, '\n');
+        }
     }
     void STCF()
     {
-
+        cout << string(100, '\n');
+        cout << "Shortest Time to Completion First" << endl;
+        readFile();
+        if (!schedule.empty())
+        {
+            ofstream outFile;
+            outFile.open ("STCF.txt");
+            PCB *pcb = schedule[0];
+            outFile << pcb->getProcessName() << " arrived" << endl;
+            outFile << pcb->getProcessName() << " running" << endl;
+            schedule.erase(schedule.begin());
+            int time = pcb->getArrivalTime();
+            int turnaround = 0;
+            int counter = 1;
+            while (!schedule.empty())
+            {
+                PCB *temp = schedule[0];
+                schedule.erase(schedule.begin());
+                pcb->setTimeRemaining(pcb->getTimeRemaining() - (temp->getArrivalTime() - time));
+                time = temp->getArrivalTime();
+                counter ++;
+                while (pcb != NULL && pcb->getTimeRemaining() <= 0)
+                {
+                    outFile << pcb->getProcessName() << " completed" << endl;
+                    turnaround = turnaround + (time + pcb->getTimeRemaining() - pcb->getArrivalTime());
+                    PCB *hold = NULL;
+                    if (!ready.empty())
+                    {
+                        hold = ready.front();
+                        ready.pop();
+                        outFile << hold->getProcessName() << " running" << endl;
+                        hold->setTimeRemaining(hold->getTimeRemaining() + pcb->getTimeRemaining());
+                    }
+                    delete pcb;
+                    pcb = hold;
+                }
+                if (pcb == NULL)
+                {
+                    pcb = temp;
+                    outFile << temp->getProcessName() << " arrived" << endl;
+                    outFile << temp->getProcessName() << " running" << endl;
+                }
+                else
+                {
+                    int placed = 0;
+                    outFile << temp->getProcessName() << " arrived" << endl;
+                    if (pcb->getTimeRemaining() > temp->getTimeRemaining())
+                    {
+                        swap(pcb,temp);
+                        outFile << pcb->getProcessName() << " running" << endl;
+                    }
+                    if (ready.empty())
+                    {
+                        ready.push(temp);
+                        outFile << temp->getProcessName() << " moved to ready queue" << endl;
+                    }
+                    else
+                    {
+                        int queueSize = ready.size();
+                        for (int i = 0; i < queueSize; i++)
+                        {
+                            PCB *hold = ready.front();
+                            ready.pop();
+                            if (temp->getTimeRemaining() < hold->getTimeRemaining() && placed == 0)
+                            {
+                                ready.push(temp);
+                                outFile << temp->getProcessName() << " moved to ready queue" << endl;
+                                placed = 1;
+                            }
+                            ready.push(hold);
+                        }
+                        if (placed == 0)
+                        {
+                            ready.push(temp);
+                            outFile << temp->getProcessName() << " moved to ready queue" << endl;
+                        }
+                    }
+                }
+            }
+            time = time + pcb->getTimeRemaining();
+            turnaround = turnaround + time - pcb->getArrivalTime();
+            outFile << pcb->getProcessName() << " completed" << endl;
+            delete pcb;
+            while (!ready.empty())
+            {
+                PCB *pcb = ready.front();
+                time = time + pcb->getTimeRemaining();
+                turnaround = turnaround + time - pcb->getArrivalTime();
+                outFile << pcb->getProcessName() << " completed" << endl;
+                ready.pop();
+                delete pcb;
+            }
+            outFile << endl << "Time to completion: " << time << endl;
+            outFile << "Average Turnaround Time : " << (turnaround/counter) << endl;
+            outFile.close();
+            cout << "STCF Complete" << endl;
+            cout << "Press Enter" << endl;
+            cin.get();
+            cin.clear();
+            cin.ignore(10000, '\n');
+        }
+        else
+        {
+            cout << "Nothing to schedule" << endl;
+            cout << "Press Enter" << endl;
+            cin.get();
+            cin.clear();
+            cin.ignore(10000, '\n');
+        }
     }
     void FPPS()
     {
-
+        cout << string(100, '\n');
+        cout << "Fixed Priority Pre-Emptive Scheduling" << endl;
+        readFile();
+        if (!schedule.empty())
+        {
+            ofstream outFile;
+            outFile.open ("FPPS.txt");
+            PCB *pcb = schedule[0];
+            outFile << pcb->getProcessName() << " arrived" << endl;
+            outFile << pcb->getProcessName() << " running" << endl;
+            schedule.erase(schedule.begin());
+            int time = pcb->getArrivalTime();
+            int turnaround = 0;
+            int counter = 1;
+            while (!schedule.empty())
+            {
+                PCB *temp = schedule[0];
+                schedule.erase(schedule.begin());
+                pcb->setTimeRemaining(pcb->getTimeRemaining() - (temp->getArrivalTime() - time));
+                time = temp->getArrivalTime();
+                counter ++;
+                while (pcb != NULL && pcb->getTimeRemaining() <= 0)
+                {
+                    outFile << pcb->getProcessName() << " completed" << endl;
+                    turnaround = turnaround + (time + pcb->getTimeRemaining() - pcb->getArrivalTime());
+                    PCB *hold = NULL;
+                    if (!ready.empty())
+                    {
+                        hold = ready.front();
+                        ready.pop();
+                        outFile << hold->getProcessName() << " running" << endl;
+                        hold->setTimeRemaining(hold->getTimeRemaining() + pcb->getTimeRemaining());
+                    }
+                    delete pcb;
+                    pcb = hold;
+                }
+                if (pcb == NULL)
+                {
+                    pcb = temp;
+                    outFile << temp->getProcessName() << " arrived" << endl;
+                    outFile << temp->getProcessName() << " running" << endl;
+                }
+                else
+                {
+                    int placed = 0;
+                    outFile << temp->getProcessName() << " arrived" << endl;
+                    if (pcb->getPriority() < temp->getPriority())
+                    {
+                        swap(pcb,temp);
+                        outFile << pcb->getProcessName() << " running" << endl;
+                    }
+                    if (ready.empty())
+                    {
+                        ready.push(temp);
+                        outFile << temp->getProcessName() << " moved to ready queue" << endl;
+                    }
+                    else
+                    {
+                        int queueSize = ready.size();
+                        for (int i = 0; i < queueSize; i++)
+                        {
+                            PCB *hold = ready.front();
+                            ready.pop();
+                            if (temp->getPriority() > hold->getPriority() && placed == 0)
+                            {
+                                ready.push(temp);
+                                outFile << temp->getProcessName() << " moved to ready queue" << endl;
+                                placed = 1;
+                            }
+                            ready.push(hold);
+                        }
+                        if (placed == 0)
+                        {
+                            ready.push(temp);
+                            outFile << temp->getProcessName() << " moved to ready queue" << endl;
+                        }
+                    }
+                }
+            }
+            time = time + pcb->getTimeRemaining();
+            turnaround = turnaround + time - pcb->getArrivalTime();
+            outFile << pcb->getProcessName() << " completed" << endl;
+            delete pcb;
+            while (!ready.empty())
+            {
+                PCB *pcb = ready.front();
+                time = time + pcb->getTimeRemaining();
+                turnaround = turnaround + time - pcb->getArrivalTime();
+                outFile << pcb->getProcessName() << " completed" << endl;
+                ready.pop();
+                delete pcb;
+            }
+            outFile << endl << "Time to completion: " << time << endl;
+            outFile << "Average Turnaround Time : " << (turnaround/counter) << endl;
+            outFile.close();
+            cout << "FPPS Complete" << endl;
+            cout << "Press Enter" << endl;
+            cin.get();
+            cin.clear();
+            cin.ignore(10000, '\n');
+        }
+        else
+        {
+            cout << "Nothing to schedule" << endl;
+            cout << "Press Enter" << endl;
+            cin.get();
+            cin.clear();
+            cin.ignore(10000, '\n');
+        }
     }
     void RR()
     {
-
+        cout << string(100, '\n');
+        cout << "Round Robin" << endl;
+        readFile();
+        if (!schedule.empty())
+        {
+            int quantum;
+            cout << "Enter Time Quantum: ";
+            cin >> quantum;
+            cout << endl;
+            while (quantum <= 0)
+            {
+                cout << "Time quantum must be an integer greater than 0" << endl;
+                cout << "Enter Time Quantum: ";
+                cin.clear();
+                cin.ignore(10000, '\n');
+                cin >> quantum;
+                cout << endl;
+            }
+            ofstream outFile;
+            outFile.open ("RR.txt");
+            PCB *pcb = schedule[0];
+            schedule.erase(schedule.begin());
+            outFile << pcb->getProcessName() << " arrived" << endl;
+            outFile << pcb->getProcessName() << " running" << endl;
+            int time = pcb->getArrivalTime();
+            int turnaround = 0;
+            int counter = 1;
+            while(!schedule.empty() || !ready.empty())
+            {
+                pcb->setTimeRemaining(pcb->getTimeRemaining() - quantum);
+                if (pcb->getTimeRemaining() <= 0)
+                {
+                    time = time + quantum + pcb->getTimeRemaining();
+                    outFile << pcb->getProcessName() << " completed" << endl;
+                    turnaround = turnaround + (time + pcb->getTimeRemaining() - pcb->getArrivalTime());
+                    delete pcb;
+                    pcb = NULL;
+                }
+                else
+                {
+                    time = time + quantum;
+                }
+                if (!schedule.empty())
+                {
+                   PCB *temp = schedule[0];
+                   while (!schedule.empty() && temp->getArrivalTime() <= time)
+                   {
+                       ready.push(temp);
+                       schedule.erase(schedule.begin());
+                       counter++;
+                       outFile << temp->getProcessName() << " arrived" << endl;
+                       outFile << temp->getProcessName() << " moved to ready queue" << endl;
+                       if (!schedule.empty())
+                       {
+                           temp = schedule[0];
+                       }
+                   }
+                }
+                if (!ready.empty())
+                {
+                    if (pcb != NULL)
+                    {
+                        ready.push(pcb);
+                        outFile << pcb->getProcessName() << " moved to ready queue" << endl;
+                    }
+                    pcb = ready.front();
+                    ready.pop();
+                    outFile << pcb->getProcessName() << " running" << endl;
+                }
+                else
+                {
+                    if (pcb == NULL)
+                    {
+                        if (!schedule.empty())
+                        {
+                            pcb = schedule[0];
+                            schedule.erase(schedule.begin());
+                            time = pcb->getArrivalTime();
+                            outFile << pcb->getProcessName() << " arrived" << endl;
+                            counter++;
+                            outFile << pcb->getProcessName() << " running" << endl;
+                        }
+                    }
+                }
+            }
+            outFile << pcb->getProcessName() << " completed" << endl;
+            time = time + pcb->getTimeRemaining();
+            turnaround = turnaround + time - pcb->getArrivalTime();
+            outFile << endl << "Time to completion: " << time << endl;
+            outFile << "Average Turnaround Time : " << (turnaround/counter) << endl;
+            outFile.close();
+            cout << "RR Complete" << endl;
+            cout << "Press Enter" << endl;
+            cin.get();
+            cin.clear();
+            cin.ignore(10000, '\n');
+        }
+        else
+        {
+            cout << "Nothing to schedule" << endl;
+            cout << "Press Enter" << endl;
+            cin.get();
+            cin.clear();
+            cin.ignore(10000, '\n');
+        }
     }
     void MLFQ()
     {
+        cout << string(100, '\n');
+        cout << "Multilevel Feedback Queue" << endl;
+        readFile();
+        if (!schedule.empty())
+        {
+            int numberQueues;
+            cout << "Enter Number of Queues: ";
+            cin >> numberQueues;
+            cout << endl;
+            while (numberQueues <= 0)
+            {
+                cout << "Number of queues must be an integer greater than 0" << endl;
+                cout << "Enter Number of Queues: ";
+                cin.clear();
+                cin.ignore(10000, '\n');
+                cin >> numberQueues;
+                cout << endl;
+            }
+            int timeAllotment[numberQueues];
+            for (int i = 0; i < numberQueues; i++)
+            {
+                cout << "Enter Time Allotment for queue " << i+1 << " : ";
+                cin >> timeAllotment[i];
+                cout << endl;
+                while (timeAllotment[i] <= 0)
+                {
+                    cout << "Time Allotment must be an integer greater than 0" << endl;
+                    cout << "Enter Time Allotment for queue " << i+1 << " : ";
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+                    cin >> timeAllotment[i];
+                    cout << endl;
+                }
+            }
+            int resetCycles;
+            cout << "Enter Number of Cycles Until Queue Reset: ";
+            cin >> resetCycles;
+            cout << endl;
+            while (resetCycles <= 0)
+            {
+                cout << "Number of cycles must be an integer greater than 0" << endl;
+                cout << "Enter Number of Cycles Until Queue Reset: ";
+                cin.clear();
+                cin.ignore(10000, '\n');
+                cin >> resetCycles;
+                cout << endl;
+            }
+            ofstream outFile;
+            outFile.open ("MLFQ.txt");
 
+            PCB *pcb = schedule[0];
+            schedule.erase(schedule.begin());
+            pcb->setPriority(0);
+            outFile << pcb->getProcessName() << " arrived" << endl;
+            outFile << pcb->getProcessName() << " running" << endl;
+            int time = pcb->getArrivalTime();
+            int turnaround = 0;
+            int counter = 1;
+            int currentQueue = 0;
+            int cycles = 0;
+            while(!schedule.empty() || !ready.empty())
+            {
+                pcb->setTimeRemaining(pcb->getTimeRemaining() - timeAllotment[currentQueue]);
+                if (pcb->getTimeRemaining() <= 0)
+                {
+                    time = time + timeAllotment[currentQueue] + pcb->getTimeRemaining();
+                    outFile << pcb->getProcessName() << " completed" << endl;
+                    turnaround = turnaround + (time + pcb->getTimeRemaining() - pcb->getArrivalTime());
+                    delete pcb;
+                    pcb = NULL;
+                }
+                else
+                {
+                    time = time + timeAllotment[currentQueue];
+                    if((currentQueue + 1) <= (numberQueues - 1))
+                    {
+                       pcb->setPriority(currentQueue + 1);
+                    }
+                }
+
+                if (!schedule.empty())
+                {
+                   PCB *temp = schedule[0];
+                   while (!schedule.empty() && temp->getArrivalTime() <= time)
+                   {
+                       ready.push(temp);
+                       schedule.erase(schedule.begin());
+                       counter++;
+                       outFile << temp->getProcessName() << " arrived" << endl;
+                       outFile << temp->getProcessName() << " moved to ready queue 1" << endl; //Queue 1 == priority 0
+                       temp->setPriority(0);
+                       if (!schedule.empty())
+                       {
+                           temp = schedule[0];
+                       }
+                   }
+                }
+                cycles++;
+                if (cycles == resetCycles)
+                {
+                    if (!ready.empty())
+                    {
+                        for (int i = 0; i < ready.size();i++)
+                        {
+                            PCB *temp = ready.front();
+                            ready.pop();
+                            temp->setPriority(0);
+                            ready.push(temp);
+                            outFile << temp->getProcessName() << " moved to ready queue 1" << endl;
+                        }
+                    }
+
+                    if (pcb != NULL)
+                    {
+                        pcb->setPriority(0);
+                    }
+                }
+                if (!ready.empty())
+                {
+                    if (pcb != NULL)
+                    {
+                        ready.push(pcb);
+                        outFile << pcb->getProcessName() << " moved to ready queue " << pcb->getPriority() + 1 <<  endl;
+                    }
+                    currentQueue = (-1);
+                    int found = 0;
+                    while(found == 0)
+                    {
+                        currentQueue++;
+                        for (int i = 0; i < ready.size();i++)
+                        {
+                            PCB *temp = ready.front();
+                            ready.pop();
+                            if (temp->getPriority() == currentQueue && found == 0)
+                            {
+                                pcb = temp;
+                                found = 1;
+                            }
+                            else
+                            {
+                                ready.push(temp);
+                            }
+                        }
+                    }
+                    outFile << pcb->getProcessName() << " running" << endl;
+                }
+                else
+                {
+                    if (pcb == NULL)
+                    {
+                        if (!schedule.empty())
+                        {
+                            pcb = schedule[0];
+                            schedule.erase(schedule.begin());
+                            time = pcb->getArrivalTime();
+                            outFile << pcb->getProcessName() << " arrived" << endl;
+                            counter++;
+                            outFile << pcb->getProcessName() << " running" << endl;
+                            currentQueue = 0;
+                        }
+                    }
+                }
+            }
+            outFile << pcb->getProcessName() << " completed" << endl;
+            time = time + pcb->getTimeRemaining();
+            turnaround = turnaround + time - pcb->getArrivalTime();
+            outFile << endl << "Time to completion: " << time << endl;
+            outFile << "Average Turnaround Time : " << (turnaround/counter) << endl;
+            outFile.close();
+            cout << "MLFQ Complete" << endl;
+            cout << "Press Enter" << endl;
+            cin.get();
+            cin.clear();
+            cin.ignore(10000, '\n');
+        }
+        else
+        {
+            cout << "Nothing to schedule" << endl;
+            cout << "Press Enter" << endl;
+            cin.get();
+            cin.clear();
+            cin.ignore(10000, '\n');
+        }
     }
     void LS()
     {
+        cout << string(100, '\n');
+        cout << "Lottery Scheduler" << endl;
+        readFile();
+        if (!schedule.empty())
+        {
+            int numberTickets;
+            cout << "Enter Number of Tickets: ";
+            cin >> numberTickets;
+            cout << endl;
+            while (numberTickets < 100)
+            {
+                cout << "Number of tickets must be an integer greater than 99" << endl;
+                cout << "Enter Number of Tickets: ";
+                cin.clear();
+                cin.ignore(10000, '\n');
+                cin >> numberTickets;
+                cout << endl;
+            }
+            ofstream outFile;
+            outFile.open ("LS.txt");
+            srand (time(NULL));
+            PCB *pcb = schedule[0];
+            schedule.erase(schedule.begin());
+            int cpuCurrentPercentage = pcb->getCPUPercentage();
+            outFile << pcb->getProcessName() << " arrived" << endl;
+            outFile << pcb->getProcessName() << " running" << endl;
+            int time = pcb->getArrivalTime();
+            int turnaround = 0;
+            int counter = 1;
+            int issuedTickets = 0;
+            vector<int> tickets;
+            vector<PCB*> ticketOwner;
+            ticketOwner.push_back(pcb);
+            int issuingTickets = ((numberTickets * pcb->getCPUPercentage()) / 100);
+            tickets.push_back(issuingTickets);
+            issuedTickets = issuedTickets + issuingTickets;
+            while(!schedule.empty() || ticketOwner.size())
+            {
+                pcb->setTimeRemaining(pcb->getTimeRemaining() - 100);
+                if (pcb->getTimeRemaining() <= 0)
+                {
+                    time = time + 100 + pcb->getTimeRemaining();
+                    outFile << pcb->getProcessName() << " completed" << endl;
+                    turnaround = turnaround + (time + pcb->getTimeRemaining() - pcb->getArrivalTime());
+                    for (int i = 0; i < ticketOwner.size(); i++)
+                    {
+                        if (ticketOwner[i] == pcb)
+                        {
+                            issuedTickets = issuedTickets - tickets[i];
+                            tickets.erase(tickets.begin()+ i);
+                            ticketOwner.erase(ticketOwner.begin() + i);
+                            cpuCurrentPercentage = cpuCurrentPercentage - pcb->getCPUPercentage();
+                        }
+                    }
+                    delete pcb;
+                    pcb = NULL;
+                }
+                else
+                {
+                    time = time + 100;
+                }
 
+                if (!schedule.empty())
+                {
+                   PCB *temp = schedule[0];
+                   while (!schedule.empty() && temp->getArrivalTime() <= time && ((cpuCurrentPercentage + temp->getCPUPercentage()) < 100))
+                   {
+                       schedule.erase(schedule.begin());
+                       counter++;
+                       outFile << temp->getProcessName() << " arrived" << endl;
+                       outFile << temp->getProcessName() << " moved to ready queue" << endl;
+                       ticketOwner.push_back(temp);
+                       int issuingTickets = ((numberTickets * temp->getCPUPercentage()) / 100);
+                       tickets.push_back(issuingTickets);
+                       issuedTickets = issuedTickets + issuingTickets;
+                       if (!schedule.empty())
+                       {
+                           temp = schedule[0];
+                       }
+                   }
+                }
+                if (!ticketOwner.empty())
+                {
+                    if (pcb != NULL)
+                    {
+                        outFile << pcb->getProcessName() << " moved to ready queue" << endl;
+                    }
+                    int draw = rand() % issuedTickets + 1;
+                    int found = 0;
+                    for (int i = 0; i < tickets.size(); i++)
+                    {
+                        draw = draw - tickets[i];
+                        if (draw <= 0 && found == 0)
+                        {
+                            pcb = ticketOwner[i];
+                            found = 1;
+                        }
+                    }
+                    outFile << pcb->getProcessName() << " running" << endl;
+                }
+                else
+                {
+                    if (pcb == NULL)
+                    {
+                        if (!schedule.empty())
+                        {
+                            pcb = schedule[0];
+                            schedule.erase(schedule.begin());
+                            time = pcb->getArrivalTime();
+                            outFile << pcb->getProcessName() << " arrived" << endl;
+                            counter++;
+                            outFile << pcb->getProcessName() << " running" << endl;
+                            ticketOwner.push_back(pcb);
+                            int issuingTickets = ((numberTickets * pcb->getCPUPercentage()) / 100);
+                            tickets.push_back(issuingTickets);
+                            issuedTickets = issuedTickets + issuingTickets;
+                        }
+                    }
+                }
+            }
+            outFile << endl << "Time to completion: " << time << endl;
+            outFile << "Average Turnaround Time : " << (turnaround/counter) << endl;
+            outFile.close();
+            cout << "LS Complete" << endl;
+            cout << "Press Enter" << endl;
+            cin.get();
+            cin.clear();
+            cin.ignore(10000, '\n');
+        }
+        else
+        {
+            cout << "Nothing to schedule" << endl;
+            cout << "Press Enter" << endl;
+            cin.get();
+            cin.clear();
+            cin.ignore(10000, '\n');
+        }
     }
 private:
     queue<PCB*> ready;
@@ -660,10 +1324,15 @@ public:
         showReady();
         showBlocked();
     }
-    void OSTest4()
+    void OSTest4()//Schedule tests
     {
-        pcbControl.SJF();
-        pcbControl.FIFO();
+        //pcbControl.SJF();
+        //pcbControl.FIFO();
+        //pcbControl.STCF();
+        //pcbControl.FPPS();
+        //pcbControl.RR();
+        //pcbControl.MLFQ();
+        pcbControl.LS();
     }
 private:
     void menu ()

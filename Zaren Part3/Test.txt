@@ -1,6 +1,6 @@
 TestProcess1 A 24 128 500 15 25
-TestProcess2 S 50 14 800 16 30
-TestProcess3 S 100 13 1600 20 50 
-TestProcess4 A 46 74 240 32 28
-TestProcess5 A 15 87 600 40 15
-TestProcess6 S 32 6 900 45 27
+TestProcess2 S 50 14 800 16 15
+TestProcess3 S 100 13 1600 25 25
+TestProcess4 A 46 74 240 20 20
+TestProcess5 A 15 87 600 40 5
+TestProcess6 S 32 6 900 8000 10

@@ -1,0 +1,353 @@
+TestProcess1 arrived
+TestProcess1 running
+TestProcess2 arrived
+TestProcess2 moved to ready queue 1
+TestProcess1 moved to ready queue 2
+TestProcess2 running
+TestProcess2 moved to ready queue 2
+TestProcess1 running
+TestProcess1 moved to ready queue 3
+TestProcess2 running
+TestProcess3 arrived
+TestProcess3 moved to ready queue 1
+TestProcess2 moved to ready queue 3
+TestProcess3 running
+TestProcess3 moved to ready queue 2
+TestProcess3 running
+TestProcess3 moved to ready queue 3
+TestProcess2 running
+TestProcess2 moved to ready queue 4
+TestProcess3 running
+TestProcess3 moved to ready queue 4
+TestProcess1 running
+TestProcess4 arrived
+TestProcess4 moved to ready queue 1
+TestProcess1 moved to ready queue 4
+TestProcess4 running
+TestProcess4 moved to ready queue 2
+TestProcess4 running
+TestProcess4 moved to ready queue 3
+TestProcess4 running
+TestProcess4 moved to ready queue 4
+TestProcess1 running
+TestProcess5 arrived
+TestProcess5 moved to ready queue 1
+TestProcess1 moved to ready queue 5
+TestProcess5 running
+TestProcess5 moved to ready queue 2
+TestProcess5 running
+TestProcess5 moved to ready queue 3
+TestProcess5 running
+TestProcess5 moved to ready queue 4
+TestProcess4 running
+TestProcess4 moved to ready queue 5
+TestProcess5 running
+TestProcess5 moved to ready queue 5
+TestProcess3 running
+TestProcess3 moved to ready queue 5
+TestProcess2 running
+TestProcess2 moved to ready queue 5
+TestProcess3 running
+TestProcess3 moved to ready queue 6
+TestProcess2 running
+TestProcess2 moved to ready queue 6
+TestProcess5 running
+TestProcess5 moved to ready queue 6
+TestProcess4 running
+TestProcess4 moved to ready queue 6
+TestProcess1 running
+TestProcess1 moved to ready queue 6
+TestProcess4 running
+TestProcess4 moved to ready queue 7
+TestProcess1 running
+TestProcess1 moved to ready queue 7
+TestProcess5 running
+TestProcess5 moved to ready queue 7
+TestProcess2 running
+TestProcess2 moved to ready queue 7
+TestProcess3 running
+TestProcess3 moved to ready queue 7
+TestProcess2 running
+TestProcess2 moved to ready queue 8
+TestProcess3 running
+TestProcess3 moved to ready queue 8
+TestProcess5 running
+TestProcess5 moved to ready queue 8
+TestProcess1 running
+TestProcess1 moved to ready queue 8
+TestProcess4 running
+TestProcess4 moved to ready queue 8
+TestProcess1 running
+TestProcess1 moved to ready queue 9
+TestProcess4 running
+TestProcess4 moved to ready queue 9
+TestProcess5 running
+TestProcess5 moved to ready queue 9
+TestProcess3 running
+TestProcess3 moved to ready queue 9
+TestProcess2 running
+TestProcess2 moved to ready queue 9
+TestProcess3 running
+TestProcess3 moved to ready queue 10
+TestProcess2 running
+TestProcess2 moved to ready queue 10
+TestProcess5 running
+TestProcess5 moved to ready queue 10
+TestProcess4 running
+TestProcess4 moved to ready queue 10
+TestProcess1 running
+TestProcess1 moved to ready queue 10
+TestProcess4 running
+TestProcess4 moved to ready queue 11
+TestProcess1 running
+TestProcess1 moved to ready queue 11
+TestProcess5 running
+TestProcess5 moved to ready queue 11
+TestProcess2 running
+TestProcess2 moved to ready queue 11
+TestProcess3 running
+TestProcess3 moved to ready queue 11
+TestProcess2 running
+TestProcess2 moved to ready queue 12
+TestProcess3 running
+TestProcess3 moved to ready queue 12
+TestProcess5 running
+TestProcess5 moved to ready queue 12
+TestProcess1 running
+TestProcess1 moved to ready queue 12
+TestProcess4 running
+TestProcess4 moved to ready queue 12
+TestProcess1 running
+TestProcess1 moved to ready queue 13
+TestProcess4 running
+TestProcess4 moved to ready queue 13
+TestProcess5 running
+TestProcess5 moved to ready queue 13
+TestProcess3 running
+TestProcess3 moved to ready queue 13
+TestProcess2 running
+TestProcess2 moved to ready queue 13
+TestProcess3 running
+TestProcess3 moved to ready queue 14
+TestProcess2 running
+TestProcess2 moved to ready queue 14
+TestProcess5 running
+TestProcess5 moved to ready queue 14
+TestProcess4 running
+TestProcess4 moved to ready queue 14
+TestProcess1 running
+TestProcess1 moved to ready queue 14
+TestProcess4 running
+TestProcess4 moved to ready queue 15
+TestProcess1 running
+TestProcess1 moved to ready queue 15
+TestProcess5 running
+TestProcess5 moved to ready queue 15
+TestProcess2 running
+TestProcess2 moved to ready queue 15
+TestProcess3 running
+TestProcess3 moved to ready queue 15
+TestProcess2 running
+TestProcess2 moved to ready queue 16
+TestProcess3 running
+TestProcess3 moved to ready queue 16
+TestProcess5 running
+TestProcess5 moved to ready queue 16
+TestProcess1 running
+TestProcess1 moved to ready queue 16
+TestProcess4 running
+TestProcess4 moved to ready queue 16
+TestProcess1 running
+TestProcess1 moved to ready queue 17
+TestProcess4 running
+TestProcess4 moved to ready queue 17
+TestProcess5 running
+TestProcess5 moved to ready queue 17
+TestProcess3 running
+TestProcess3 moved to ready queue 17
+TestProcess2 running
+TestProcess2 moved to ready queue 17
+TestProcess3 running
+TestProcess3 moved to ready queue 18
+TestProcess2 running
+TestProcess2 moved to ready queue 18
+TestProcess5 running
+TestProcess5 moved to ready queue 18
+TestProcess4 running
+TestProcess4 moved to ready queue 18
+TestProcess1 running
+TestProcess1 moved to ready queue 18
+TestProcess4 running
+TestProcess4 moved to ready queue 19
+TestProcess1 running
+TestProcess1 moved to ready queue 19
+TestProcess5 running
+TestProcess5 moved to ready queue 19
+TestProcess2 running
+TestProcess2 moved to ready queue 19
+TestProcess3 running
+TestProcess3 moved to ready queue 19
+TestProcess2 running
+TestProcess2 moved to ready queue 20
+TestProcess3 running
+TestProcess3 moved to ready queue 20
+TestProcess5 running
+TestProcess5 moved to ready queue 20
+TestProcess1 running
+TestProcess1 moved to ready queue 20
+TestProcess4 running
+TestProcess4 moved to ready queue 20
+TestProcess1 running
+TestProcess1 moved to ready queue 21
+TestProcess4 running
+TestProcess4 moved to ready queue 21
+TestProcess5 running
+TestProcess5 moved to ready queue 21
+TestProcess3 running
+TestProcess3 moved to ready queue 21
+TestProcess2 running
+TestProcess2 moved to ready queue 21
+TestProcess3 running
+TestProcess3 moved to ready queue 22
+TestProcess2 running
+TestProcess2 moved to ready queue 22
+TestProcess5 running
+TestProcess5 moved to ready queue 22
+TestProcess4 running
+TestProcess4 moved to ready queue 22
+TestProcess1 running
+TestProcess1 moved to ready queue 22
+TestProcess4 running
+TestProcess4 completed
+TestProcess1 running
+TestProcess1 moved to ready queue 23
+TestProcess3 running
+TestProcess3 moved to ready queue 23
+TestProcess5 running
+TestProcess5 moved to ready queue 23
+TestProcess2 running
+TestProcess2 moved to ready queue 23
+TestProcess5 running
+TestProcess5 moved to ready queue 24
+TestProcess2 running
+TestProcess2 moved to ready queue 24
+TestProcess3 running
+TestProcess3 moved to ready queue 24
+TestProcess1 running
+TestProcess1 moved to ready queue 24
+TestProcess3 running
+TestProcess3 moved to ready queue 25
+TestProcess1 running
+TestProcess1 moved to ready queue 25
+TestProcess2 running
+TestProcess2 moved to ready queue 25
+TestProcess5 running
+TestProcess5 moved to ready queue 25
+TestProcess2 running
+TestProcess2 moved to ready queue 26
+TestProcess5 running
+TestProcess5 moved to ready queue 26
+TestProcess1 running
+TestProcess1 moved to ready queue 26
+TestProcess3 running
+TestProcess3 moved to ready queue 26
+TestProcess1 running
+TestProcess1 moved to ready queue 27
+TestProcess3 running
+TestProcess3 moved to ready queue 27
+TestProcess5 running
+TestProcess5 moved to ready queue 27
+TestProcess2 running
+TestProcess2 moved to ready queue 27
+TestProcess5 running
+TestProcess5 moved to ready queue 28
+TestProcess2 running
+TestProcess2 moved to ready queue 28
+TestProcess3 running
+TestProcess3 moved to ready queue 28
+TestProcess1 running
+TestProcess1 moved to ready queue 28
+TestProcess3 running
+TestProcess3 moved to ready queue 29
+TestProcess1 running
+TestProcess1 moved to ready queue 29
+TestProcess2 running
+TestProcess2 moved to ready queue 29
+TestProcess5 running
+TestProcess5 moved to ready queue 29
+TestProcess2 running
+TestProcess2 moved to ready queue 30
+TestProcess5 running
+TestProcess5 moved to ready queue 30
+TestProcess1 running
+TestProcess1 moved to ready queue 30
+TestProcess3 running
+TestProcess3 moved to ready queue 30
+TestProcess1 running
+TestProcess1 moved to ready queue 31
+TestProcess3 running
+TestProcess3 moved to ready queue 31
+TestProcess5 running
+TestProcess5 moved to ready queue 31
+TestProcess2 running
+TestProcess2 moved to ready queue 31
+TestProcess5 running
+TestProcess5 moved to ready queue 32
+TestProcess2 running
+TestProcess2 moved to ready queue 32
+TestProcess3 running
+TestProcess3 moved to ready queue 32
+TestProcess1 running
+TestProcess1 moved to ready queue 32
+TestProcess3 running
+TestProcess3 moved to ready queue 33
+TestProcess1 running
+TestProcess1 completed
+TestProcess2 running
+TestProcess2 moved to ready queue 33
+TestProcess5 running
+TestProcess5 moved to ready queue 33
+TestProcess2 running
+TestProcess2 moved to ready queue 34
+TestProcess5 running
+TestProcess5 moved to ready queue 34
+TestProcess3 running
+TestProcess3 moved to ready queue 34
+TestProcess5 running
+TestProcess5 moved to ready queue 35
+TestProcess3 running
+TestProcess3 moved to ready queue 35
+TestProcess2 running
+TestProcess2 moved to ready queue 35
+TestProcess3 running
+TestProcess3 moved to ready queue 36
+TestProcess2 running
+TestProcess2 moved to ready queue 36
+TestProcess5 running
+TestProcess5 completed
+TestProcess2 running
+TestProcess2 moved to ready queue 37
+TestProcess3 running
+TestProcess3 moved to ready queue 37
+TestProcess2 running
+TestProcess2 moved to ready queue 38
+TestProcess3 running
+TestProcess3 moved to ready queue 38
+TestProcess2 running
+TestProcess2 moved to ready queue 39
+TestProcess3 running
+TestProcess3 moved to ready queue 39
+TestProcess2 running
+TestProcess2 moved to ready queue 40
+TestProcess3 running
+TestProcess3 moved to ready queue 40
+TestProcess2 running
+TestProcess2 completed
+TestProcess3 running
+TestProcess3 completed
+TestProcess6 arrived
+TestProcess6 running
+TestProcess6 completed
+
+Time to completion: 8900
+Average Turnaround Time : 2237

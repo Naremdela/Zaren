@@ -1,0 +1,107 @@
+TestProcess1 arrived
+TestProcess1 running
+TestProcess2 arrived
+TestProcess2 moved to ready queue
+TestProcess3 arrived
+TestProcess3 moved to ready queue
+TestProcess4 arrived
+TestProcess4 moved to ready queue
+TestProcess5 arrived
+TestProcess5 moved to ready queue
+TestProcess1 moved to ready queue
+TestProcess1 running
+TestProcess1 moved to ready queue
+TestProcess2 running
+TestProcess2 moved to ready queue
+TestProcess2 running
+TestProcess2 moved to ready queue
+TestProcess3 running
+TestProcess3 moved to ready queue
+TestProcess1 running
+TestProcess1 moved to ready queue
+TestProcess1 running
+TestProcess1 moved to ready queue
+TestProcess3 running
+TestProcess3 moved to ready queue
+TestProcess1 running
+TestProcess1 completed
+TestProcess4 running
+TestProcess4 moved to ready queue
+TestProcess2 running
+TestProcess2 moved to ready queue
+TestProcess4 running
+TestProcess4 moved to ready queue
+TestProcess2 running
+TestProcess2 moved to ready queue
+TestProcess3 running
+TestProcess3 moved to ready queue
+TestProcess4 running
+TestProcess4 completed
+TestProcess3 running
+TestProcess3 moved to ready queue
+TestProcess3 running
+TestProcess3 moved to ready queue
+TestProcess2 running
+TestProcess2 moved to ready queue
+TestProcess3 running
+TestProcess3 moved to ready queue
+TestProcess3 running
+TestProcess3 moved to ready queue
+TestProcess3 running
+TestProcess3 moved to ready queue
+TestProcess2 running
+TestProcess2 moved to ready queue
+TestProcess2 running
+TestProcess2 moved to ready queue
+TestProcess2 running
+TestProcess2 completed
+TestProcess5 running
+TestProcess5 moved to ready queue
+TestProcess5 running
+TestProcess5 moved to ready queue
+TestProcess3 running
+TestProcess3 moved to ready queue
+TestProcess3 running
+TestProcess3 moved to ready queue
+TestProcess3 running
+TestProcess3 moved to ready queue
+TestProcess5 running
+TestProcess5 moved to ready queue
+TestProcess3 running
+TestProcess3 moved to ready queue
+TestProcess3 running
+TestProcess3 moved to ready queue
+TestProcess3 running
+TestProcess3 moved to ready queue
+TestProcess3 running
+TestProcess3 moved to ready queue
+TestProcess3 running
+TestProcess3 completed
+TestProcess5 running
+TestProcess5 moved to ready queue
+TestProcess5 running
+TestProcess5 moved to ready queue
+TestProcess5 running
+TestProcess5 completed
+TestProcess6 arrived
+TestProcess6 running
+TestProcess6 moved to ready queue
+TestProcess6 running
+TestProcess6 moved to ready queue
+TestProcess6 running
+TestProcess6 moved to ready queue
+TestProcess6 running
+TestProcess6 moved to ready queue
+TestProcess6 running
+TestProcess6 moved to ready queue
+TestProcess6 running
+TestProcess6 moved to ready queue
+TestProcess6 running
+TestProcess6 moved to ready queue
+TestProcess6 running
+TestProcess6 moved to ready queue
+TestProcess6 running
+TestProcess6 completed
+
+Time to completion: 8900
+Average Turnaround Time : 2109
